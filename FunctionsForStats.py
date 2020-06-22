@@ -49,7 +49,7 @@ def turn_to_trades(df, c):
     df = df.reset_index()
     l = df.index[cum_shares_this_trade == 0].tolist()
     l = [x + 1 for x in l]
-    l_mod = [0] + l + [max(l) + 1]
+    l_mod = [0] + l + [max(l) + 1] if len(l) > 0 else [0] + l + [1]
     list_of_dfs = [df.iloc[l_mod[n]:l_mod[n + 1]] for n in range(len(l_mod) - 1)]
     list_of_dfs = list(filter(lambda x: not x.empty, list_of_dfs))
 
@@ -94,6 +94,32 @@ def expected_trade(trades, winning, statistic='profit'):
 def time_order(trades):
     trades.sort(key=lambda x: x.end_time)
     return trades
+
+
+# Essentially returns a string filled with everything you might need.
+def trade_stats(trades, winning):
+    profit = '$' + str(net_of_all_trades(trade_filter(trades, winning))) if winning else '$' + str(
+        (net_of_all_trades(trade_filter(trades, winning))))
+    no = '\nNo of trades: ' + str(len(trade_filter(trades, winning)))
+    profit_name = '\nProfit: ' if winning else 'Losses: '
+    e_profit = '\nExpected: $' + str(expected_trade(trades, winning))
+    std_profit = '\nStd_Dvn: $' + str(std_dvn_trade(trades, winning))
+    largest = '\nLargest: $' + str(np.max(get_list(trade_filter(trades, winning), want='profit'))) if len(get_list(trade_filter(trades, winning), want='profit')) > 0 else ' '
+    avg_time = '\nAvg Time: ' + str(np.mean(get_list(trade_filter(trades, winning), want='time_elapsed')))
+    return profit_name + profit + no + e_profit + std_profit + largest + avg_time
+
+
+# Returns everything you might need in terms of the above function
+def all_trade_stats(trades, title):
+    title = title + '\n\n'
+    profit = '\nFor Profit Trades:\n'
+    losses = '\n\nFor Loss Trades:\n\n'
+    all = '\n\nFor All Trades:\n'
+    net = str(sum(get_list(trades, 'profit')))
+    percent = str(np.round(100 * float(len(trade_filter(trades, True))) / float(len(trades)), 2)) if len(trades) > 0 else '0'
+    no = '\nNo of trades: ' + str(len(trades))
+    data = profit + trade_stats(trades, True) + losses + trade_stats(trades, False)
+    return str(title) + data + all + '\nNet profit: ' + net + '\n% Trades Profitable: ' + percent + no
 
 
 from TradingClasses import CompleteTrade, TradeCsvConfig
