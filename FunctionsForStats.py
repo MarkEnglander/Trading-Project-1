@@ -90,4 +90,10 @@ def expected_trade(trades, winning, statistic='profit'):
     return np.round(np.mean(get_list(trade_filter(trades, winning), statistic)), decimals=2)
 
 
+# Return the given list of trades but ordered in time
+def time_order(trades):
+    trades.sort(key=lambda x: x.end_time)
+    return trades
+
+
 from TradingClasses import CompleteTrade, TradeCsvConfig
