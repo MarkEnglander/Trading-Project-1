@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 
-from TradingClasses import CompleteTrade, TradeCsvConfig
-
 
 # This only works assuming the time-zone traded in is +00:00, for now.
 def format_time(time, c):
@@ -90,3 +88,6 @@ def std_dvn_trade(trades, winning, statistic='profit'):
 
 def expected_trade(trades, winning, statistic='profit'):
     return np.round(np.mean(get_list(trade_filter(trades, winning), statistic)), decimals=2)
+
+
+from TradingClasses import CompleteTrade, TradeCsvConfig

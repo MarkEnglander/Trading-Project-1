@@ -2,26 +2,6 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 
-from FunctionsForStats import *
-
-
-# Configuration makes it easier to read more csvs. If a csv with different column names is given,
-# this library might still be usable if the convig instance is changed.
-# In the rest of the code, the config being used is called c.
-class TradeCsvConfig:
-    def __init__(self, date_format='20%y-%m-%d %H:%M:%S+00:00', clientid='clientId', symbol='symbol', time='time',
-                 avgprice='avgPrice', currency='currency', botsld='BOT-SLD', bot='BOT', sld='SLD', shares='shares'):
-        self.date_format = date_format
-        self.clientid = clientid
-        self.symbol = symbol
-        self.time = time
-        self.currency = currency
-        self.botsld = botsld
-        self.bot = bot
-        self.sld = sld
-        self.avgprice = avgprice
-        self.shares = shares
-
 
 # CompleteTrade takes as a constructor a data frame that has already been identified to meet these conditions:
 # - The data frame is for one client for one symbol.
@@ -57,3 +37,24 @@ class CompleteTrade:
         return self.__str__()
 
 
+# Configuration makes it easier to read more csvs. If a csv with different column names is given,
+# this library might still be usable if the convig instance is changed.
+# In the rest of the code, the config being used is called c.
+class TradeCsvConfig:
+    def __init__(self, date_format='20%y-%m-%d %H:%M:%S+00:00', clientid='clientId', symbol='symbol', time='time',
+                 avgprice='avgPrice', currency='currency', botsld='BOT-SLD', bot='BOT', sld='SLD', shares='shares'):
+        self.date_format = date_format
+        self.clientid = clientid
+        self.symbol = symbol
+        self.time = time
+        self.currency = currency
+        self.botsld = botsld
+        self.bot = bot
+        self.sld = sld
+        self.avgprice = avgprice
+        self.shares = shares
+
+
+
+
+from FunctionsForStats import *
