@@ -59,7 +59,7 @@ def get_pdf_of_stats(data, title, config=config_default):
     for i in li:
         canvas.drawString(70, start, i)
         start -= 15
-    print(canvas.getAvailableFonts())
+    
     # create the pie chart
     d = Drawing()
     pie = Pie()
